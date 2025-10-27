@@ -1,1 +1,1 @@
-# soc532_teamproj
+# ESE532 Team Project
