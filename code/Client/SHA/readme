@@ -1,2 +1,21 @@
 This is a where I will put SHA stuff. Current plan noted in note webapp thing
 
+
+Demo: Partitioned, using SHA files library. Push library into overall program. Depends on c file in lib.
+
+Build demo with make demo 
+
+Clean with make clean
+
+How to use
+In init : int sockfd = init_sha3_socket();
+In std / main : compute_sha3_hash(int sockfd, const void *input, size_t len, unsigned char *digest) 
+
+sockfd - from init
+*input ptr to input - void since it is just bits to sha
+len - unsigned integer of size_t type. this is largest possible size of a piece of data or index for the system 
+ -- basically a long uint that keeps this pretty universal  maybe change to uint since we dont really car
+ 
+*digest - Where the output sha value going. Should be unsigned char to big enough place to store a 386 bit value (48 byte) - gets funky...
+
+
