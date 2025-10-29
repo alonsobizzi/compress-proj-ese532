@@ -1,4 +1,4 @@
-#include <cstring>
+#include "lzw_SW.h"
 
 size_t lzw_PH(const void* source, void* dest, size_t length) {
     if (!source || !dest || length == 0)
