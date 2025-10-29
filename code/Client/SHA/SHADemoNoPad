@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <linux/if_alg.h>
+#include <linux/socket.h>
+
+#define SHA384_DIGEST_SZ 48 // This is 384 bits
+
+// Init
+int init_sha3_socket(void) {
+    struct sockaddr_alg sa = {
+        .salg_family = AF_ALG,
+        .salg_type = "hash",
+        .salg_name = "sha3-384"
+    };
+
+    int sockfd = socket(AF_ALG, SOCK_SEQPACKET, 0);
+    if (sockfd < 0) {
+        perror("socket");
+        return -1;
+    }
+
+    if (bind(sockfd, (struct sockaddr *)&sa, sizeof(sa)) < 0) {
+        perror("bind");
+        close(sockfd);
+        return -1;
+    }
+
+    return sockfd;
+}
+
+// ===================== Execution =====================
+int compute_sha3_hash(int sockfd, const void *input, size_t len, unsigned char *digest) {
+    int fd = accept(sockfd, NULL, 0);
+    if (fd < 0) {
+        perror("accept");
+        return -1;
+    }
+
+    if (write(fd, input, len) != (ssize_t)len) {
+        perror("write");
+        close(fd);
+        return -1;
+    }
+
+    if (read(fd, digest, SHA384_DIGEST_SZ) != SHA384_DIGEST_SZ) {
+        perror("read");
+        close(fd);
+        return -1;
+    }
+
+    close(fd);
+    return 0;
+}
+
+// Demo
+int main(void) {
+    unsigned char outhash[NUMTESTHASH][SHA384_DIGEST_SZ];
+    const char *input = "Hellhash";
+    int sockfd = init_sha3_socket();
+    if (sockfd < 0)
+        return -222; // Error with socket
+    
+    int ret = compute_sha3_hash(sockfd, input, strlen(input), outhash[i]);
+    
+    
+    //This comes after we are done all hashes
+    close(sockfd);
+    for (int in = 0; in < NUMTESTHASH; in++){
+        printf("SHA3-384 digest of \"%s\":\n", input);
+        for (int i = 0; i < SHA384_DIGEST_SZ; i++)
+            printf("%02x", outhash[in][i]);
+        printf("\n");
+        }
+    return 0;
+}
+
