@@ -26,7 +26,7 @@ int appIter(unsigned char* inputBuf, unsigned char* outputBuf, ChunkInfo *curren
     //cdc_send_chunk(CDC *cdc, unsigned int start_pos, cdc->current_chunk_len) // Then send the chunk and clear / prep the CDC object for the next packet
     
     unsigned char ShaTarg[SHA384_DIGEST_SZ]; // SHA output, probably should init only once but penalty not bad // May need to move SHA384_DIGEST_SZ to other header
-    //compute_sha3_hash(shaSoc, currentChunk->chunkStart, newChunkLen,  ShaTarg); // Hash whole chunk. Really it is better if we did this incrementally
+    compute_sha3_hash(shaSoc, inputBuf, newChunkLen,  ShaTarg); // Hash whole chunk. Really it is better if we did this incrementally
     int matchID = checkMatch_PH(ShaTarg, matchLib);
     if (matchID==1) { //If we match
     //sendDupChunk(matchID, &file[currentChunk.fileOffset]) // Never hits comment for now
