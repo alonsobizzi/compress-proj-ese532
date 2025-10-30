@@ -1,1 +1,1 @@
-int checkMatch_PH(const void* inhash, void* matchLib)
+int checkMatch_PH(const void* inhash, void* matchLib);

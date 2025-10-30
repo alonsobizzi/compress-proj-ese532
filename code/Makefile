@@ -43,7 +43,7 @@ LDFLAGS += -lxilinxopencl -lpthread -lrt -ldl -lcrypt -lstdc++ -L$(VITIS_PLATFOR
 
 # Adding includes for libraries
 
-CXXFLAGS += -I./Server/SHA/shaLib
+CXXFLAGS += -I./Server/SHA/shaLib -I./Server/LZW/lzwLib -I./Server/checkMatch/checkMatchLib #-I./Server/App
 
 # hardware compiler shared settings
 VPP_OPTS = --target hw
@@ -64,7 +64,7 @@ CLIENT_EXE = client
 CLIENT_SOURCES_MAC = Client/client-mac.cpp
 CLIENT_EXE_MAC = client_mac
 
-SERVER_SOURCES = Server/encoder.cpp Server/server.cpp Server/SHA/shaLib/shaComp.cpp
+SERVER_SOURCES = Server/encoder.cpp Server/server.cpp Server/SHA/shaLib/shaComp.cpp Server/LZW/lzwLib/lzw_PH.cpp Server/checkMatch/checkMatchLib/checkMatch_PH.cpp #Server/App/phApp.cpp
 SERVER_OBJECTS =$(SERVER_SOURCES:.cpp=.o)
 SERVER_EXE = encoder
 
