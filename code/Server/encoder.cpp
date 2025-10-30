@@ -1,5 +1,5 @@
 #include "encoder.h"
-
+#include "App.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -46,6 +46,13 @@ int main(int argc, char* argv[]) {
 	int done = 0;
 	int length = 0;
 	int count = 0;
+	
+	// Init
+	ChunkInfo* currentChunk=allocChunk(0, 0, 0, 0);
+	
+	int shaSoc =init_sha3_socket();
+	
+	
 	ESE532_Server server;
 
 	// default is 2k
@@ -67,7 +74,7 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 	}
-
+        
 	server.setup_server(blocksize);
 
 	writer = pipe_depth;
@@ -112,7 +119,9 @@ int main(int argc, char* argv[]) {
 		length = buffer[0] | (buffer[1] << 8);
 		length &= ~DONE_BIT_H;
 		//printf("length: %d offset %d\n",length,offset);
-		memcpy(&file[offset], &buffer[HEADER], length);
+		//memcpy(&file[offset], &buffer[HEADER], length);
+		appIter(&buffer[HEADER], &file[offset], currentChunk,
+          shaSoc,  NULL, file);
                 //cdc(&file[offset], &buffer[HEADER], priorchunkend,  length);
                 
 		offset += length;
