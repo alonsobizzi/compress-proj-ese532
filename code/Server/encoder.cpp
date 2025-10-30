@@ -113,7 +113,8 @@ int main(int argc, char* argv[]) {
 		length &= ~DONE_BIT_H;
 		//printf("length: %d offset %d\n",length,offset);
 		memcpy(&file[offset], &buffer[HEADER], length);
-
+                //cdc(&file[offset], &buffer[HEADER], priorchunkend,  length);
+                
 		offset += length;
 		writer++;
 	}
