@@ -24,20 +24,6 @@ struct globalInfo {
     unsigned int chunkNum;
 };
 
-struct globalInfo {
-    int shaSoc;
-    void * matchLib; //Make sure pointer is ok with boost
-    unsigned char* opFile;
-    unsigned int chunkNum;
-};
-
-struct globalInfo {
-    int shaSoc;
-    void * matchLib; //Make sure pointer is ok with boost
-    unsigned char* opFile;
-    unsigned int chunkNum;
-};
-
 int appIter(unsigned char* inputBuf, unsigned char* outputBuf, ChunkInfo *currentChunk,
           globalInfo *worldData, size_t newPacketLength);
 

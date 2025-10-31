@@ -24,28 +24,6 @@ globalInfo* allocInit(int shaSoc, void * matchLib, unsigned char* file, unsigned
     return c;
 }
 
-globalInfo* allocInit(int shaSoc, void * matchLib, unsigned char* file, unsigned int chunkNum) {
-    globalInfo* c = (globalInfo *)malloc(sizeof(globalInfo));
-    if (!c) return NULL;  // Check allocation success
-
-    c->shaSoc = shaSoc;
-    c->matchLib = matchLib; //Make sure pointer is ok with boost
-    c->opFile = file;
-    c->chunkNum = chunkNum;
-    return c;
-}
-
-globalInfo* allocInit(int shaSoc, void * matchLib, unsigned char* file, unsigned int chunkNum) {
-    globalInfo* c = (globalInfo *)malloc(sizeof(globalInfo));
-    if (!c) return NULL;  // Check allocation success
-
-    c->shaSoc = shaSoc;
-    c->matchLib = matchLib; //Make sure pointer is ok with boost
-    c->opFile = file;
-    c->chunkNum = chunkNum;
-    return c;
-}
-
 int appIter(unsigned char* inputBuf, unsigned char* outputBuf, ChunkInfo *currentChunk,
           globalInfo *worldData, size_t newPacketLength){
           
