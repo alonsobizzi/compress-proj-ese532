@@ -93,7 +93,10 @@ int main(int argc, char* argv[]) {
 
 	// we are just memcpy'ing here, but you should call your
 	// top function here.
-	memcpy(&file[offset], &buffer[HEADER], length);
+	currentChunk->fileOffset=offset;
+		
+		appIter(&buffer[HEADER], &file[offset], currentChunk,
+          shaSoc,  NULL, file, length);
 
 	offset += length;
 	writer++;
