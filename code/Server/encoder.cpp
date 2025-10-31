@@ -74,6 +74,8 @@ int main(int argc, char* argv[]) {
 			return 1;
 		}
 	}
+	
+	globalInfo* worldData = allocInit(shaSoc, NULL, file, 0);
         
 	server.setup_server(blocksize);
 
@@ -96,7 +98,7 @@ int main(int argc, char* argv[]) {
 	currentChunk->fileOffset=offset;
 		
 		appIter(&buffer[HEADER], &file[offset], currentChunk,
-          shaSoc,  NULL, file, length);
+          worldData, length);
 
 	offset += length;
 	writer++;
@@ -126,7 +128,7 @@ int main(int argc, char* argv[]) {
 		currentChunk->fileOffset=offset;
 		
 		appIter(&buffer[HEADER], &file[offset], currentChunk,
-          shaSoc,  NULL, file, length);
+          worldData, length);
                 //cdc(&file[offset], &buffer[HEADER], priorchunkend,  length);
                 
 		offset += length;

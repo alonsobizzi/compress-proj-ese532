@@ -12,10 +12,21 @@ ChunkInfo* allocChunk(unsigned char* cS, uint8_t *hash, long int eval, int offse
     return c;
 }
 
+globalInfo* allocInit(int shaSoc, void * matchLib, unsigned char* file, unsigned int chunkNum) {
+    globalInfo* c = (globalInfo *)malloc(sizeof(globalInfo));
+    if (!c) return NULL;  // Check allocation success
+
+    c->shaSoc = shaSoc;
+    c->matchLib = matchLib; //Make sure pointer is ok with boost
+    c->opFile = file;
+    c->chunkNum = chunkNum;
+    return c;
+}
+
 int appIter(unsigned char* inputBuf, unsigned char* outputBuf, ChunkInfo *currentChunk,
-          int shaSoc, void * matchLib, unsigned char* file, size_t newChunkLen){
+          globalInfo *worldData, size_t newPacketLength){
           
-  
+  //InputBuf - start of packet we are reading
    bool chunkfound=1;
    //size_t newChunkLen = 100; //junk
  //size_t newChunkLen, bool chunkfound = CDC(someinputoftheabove); // We need to know if we have a new chunk or not. If so, let's go / we need init point and length of new chunk
@@ -26,18 +37,18 @@ int appIter(unsigned char* inputBuf, unsigned char* outputBuf, ChunkInfo *curren
     //cdc_send_chunk(CDC *cdc, unsigned int start_pos, cdc->current_chunk_len) // Then send the chunk and clear / prep the CDC object for the next packet
     
     unsigned char ShaTarg[SHA384_DIGEST_SZ]; // SHA output, probably should init only once but penalty not bad // May need to move SHA384_DIGEST_SZ to other header
-    compute_sha3_hash(shaSoc, inputBuf, newChunkLen,  ShaTarg); // Hash whole chunk. Really it is better if we did this incrementally
-    int matchID = checkMatch_PH(ShaTarg, matchLib);
+    compute_sha3_hash(worldData -> shaSoc, inputBuf, newPacketLength,  ShaTarg); // Hash whole chunk. Really it is better if we did this incrementally
+    int matchID = checkMatch_PH(ShaTarg, worldData -> matchLib);
     if (matchID==1) { //If we match
     //sendDupChunk(matchID, &file[currentChunk.fileOffset]) // Never hits comment for now
     }
     else{
     //Theoretically run these concurrent
     // Needs a pre output here for chunk header
-    lzw_PH(inputBuf, &file[currentChunk->fileOffset], newChunkLen); //Compress (really send) current chunk from chunkstart for length Chunklen to file at fileoffset for the given chunk
+    lzw_PH(inputBuf, &(worldData->opFile[currentChunk->fileOffset]), newPacketLength); //Compress (really send) current chunk from chunkstart for length Chunklen to file at fileoffset for the given chunk // I can't believe it's not addition ;)
     }
-    currentChunk->fileOffset=currentChunk->fileOffset+newChunkLen;
-    currentChunk->chunkStart=currentChunk->chunkStart+newChunkLen;
+    currentChunk->fileOffset=currentChunk->fileOffset+newPacketLength;
+    currentChunk->chunkStart=currentChunk->chunkStart+newPacketLength;
   }
   return 0;
 }

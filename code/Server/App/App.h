@@ -16,8 +16,16 @@ struct ChunkInfo {
     unsigned int fileOffset;        // Where output chunk needs to be written to
 };
 
+struct globalInfo {
+    int shaSoc;
+    void * matchLib; //Make sure pointer is ok with boost
+    unsigned char* opFile;
+    unsigned int chunkNum;
+};
+
 int appIter(unsigned char* inputBuf, unsigned char* outputBuf, ChunkInfo *currentChunk,
-          int shaSoc, void * matchLib, unsigned char* file, size_t newChunkLen);
+          globalInfo *worldData, size_t newPacketLength);
 
 ChunkInfo* allocChunk(unsigned char *mem, uint8_t *hash, long int eval, int offset);
+globalInfo* allocInit(int shaSoc, void * matchLib, unsigned char* file, unsigned int chunkNum);
 //Probably move file Offset or do in some wonky threadsafe way (keep it NULL until prior chunk done with a check or similar) since requires prior chunks. Sequential so idk for now -C
