@@ -61,3 +61,7 @@ Mkfile.old
 dkms.conf
 
 .DS_Store
+
+# Allow
+
+!p1_code.tgz
