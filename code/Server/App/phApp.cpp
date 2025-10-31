@@ -9,6 +9,29 @@ ChunkInfo* allocChunk(unsigned char* cS, uint8_t *hash, long int eval, int offse
     c->cdcHash = hash; // think this needs to have malloc
     c->lastEvalPt = eval;
     c->fileOffset = offset;
+    c->chunkBuffer = (unsigned char*)malloc(1000000); // needs to be MAX_CHUNK_SIZE
+    return c;
+}
+
+globalInfo* allocInit(int shaSoc, void * matchLib, unsigned char* file, unsigned int chunkNum) {
+    globalInfo* c = (globalInfo *)malloc(sizeof(globalInfo));
+    if (!c) return NULL;  // Check allocation success
+
+    c->shaSoc = shaSoc;
+    c->matchLib = matchLib; //Make sure pointer is ok with boost
+    c->opFile = file;
+    c->chunkNum = chunkNum;
+    return c;
+}
+
+globalInfo* allocInit(int shaSoc, void * matchLib, unsigned char* file, unsigned int chunkNum) {
+    globalInfo* c = (globalInfo *)malloc(sizeof(globalInfo));
+    if (!c) return NULL;  // Check allocation success
+
+    c->shaSoc = shaSoc;
+    c->matchLib = matchLib; //Make sure pointer is ok with boost
+    c->opFile = file;
+    c->chunkNum = chunkNum;
     return c;
 }
 

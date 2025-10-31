@@ -14,6 +14,21 @@ struct ChunkInfo {
     uint8_t *cdcHash;      // Current CDC hash for last Evalpoint
     unsigned int lastEvalPt;   // Last evaluation point (i.e. where last invocation of cdc stopped evaluating
     unsigned int fileOffset;        // Where output chunk needs to be written to
+    unsigned char *chunkBuffer;
+};
+
+struct globalInfo {
+    int shaSoc;
+    void * matchLib; //Make sure pointer is ok with boost
+    unsigned char* opFile;
+    unsigned int chunkNum;
+};
+
+struct globalInfo {
+    int shaSoc;
+    void * matchLib; //Make sure pointer is ok with boost
+    unsigned char* opFile;
+    unsigned int chunkNum;
 };
 
 struct globalInfo {
